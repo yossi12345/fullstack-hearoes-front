@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~font-awesome/css/font-awesome.css";
+*{
+    box-sizing: border-box;
+}
+html, body { height: 100%; }
+body { 
+    padding-top: 60px;
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}

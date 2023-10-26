@@ -1,0 +1,6 @@
+<div class="sign-out" (click)="signOut()">sign out</div>
+<div>hi {{user?.username}}</div>
+<div class="links-container">
+    <a routerLink="/user-heroes/1" *ngIf="!isUserHeroesPage">your heroes</a>
+    <a routerLink="/heroes/1" *ngIf="!isAllHeroesPage">all heroes</a>
+</div>

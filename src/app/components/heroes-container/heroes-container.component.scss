@@ -1,0 +1,23 @@
+:host{
+    display: flex;
+    align-items: center;
+    @media (min-width:700px) {
+        height:100%;
+    }
+}
+.heroes-container{
+    display: flex;
+    gap:50px;
+   // padding: 65px 0;
+    padding-bottom: 65px;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    @media (min-width:700px) {
+        height:100%;
+        flex-direction: row;
+        justify-content: center;
+    }
+    @media (min-width:1070px) {
+    }
+}

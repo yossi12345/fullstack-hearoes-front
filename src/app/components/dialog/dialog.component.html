@@ -1,0 +1,10 @@
+<button (click)="closeDialog()" class="close-btn">
+    <mat-icon class="x-icon">close</mat-icon>
+</button>
+<div>
+    <div *ngFor="let content of contentArray">
+        {{content}}
+    </div>
+</div>
+<button (click)="closeDialog()">OK</button>
+
