@@ -1,0 +1,21 @@
+
+<div class="name" (click)="navigateToHeroPage()">{{hero.name}}</div>
+<img [src]="hero.imagePath" (click)="navigateToHeroPage()"/>
+<div class="down-part">
+    <div class="details-container">
+        <div>level: {{hero.level |number:'1.0-2'}}</div>
+        <div>trainings today: {{hero.amountOfTrainingsToday}}</div>
+        <div>last training: {{hero.lastTrainingDate | date:'dd.MM'}} in {{hero.lastTrainingDate | date:'HH:mm'}}</div>
+    </div>
+    <button [disabled]="hero.owner" *ngIf="!isUserPage" (click)="ownHero()">
+        get this hero
+    </button>
+    <div *ngIf="isUserPage" class="buttons-container">
+        <button (click)="train()">
+            train
+        </button>
+        <button (click)="unownHero()">
+            unown
+        </button>
+    </div>
+</div>

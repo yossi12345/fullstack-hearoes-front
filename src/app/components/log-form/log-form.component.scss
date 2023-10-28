@@ -1,0 +1,80 @@
+:host{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+form{
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}
+.center{
+    align-self: center;
+}
+h1{
+    text-align: center;
+    margin: 0;
+}
+label{
+    margin-bottom: 4px;
+    display: inline-block;
+}
+h5,.error-message{
+    font-size: 10px;
+    color: red;
+}
+.error-message{
+    position: absolute;
+}
+.input-container{
+    position: relative;
+}
+.password-error{
+    display: none;
+    background-color: white;
+    border: 1px solid #cccc;
+    position: absolute;
+    bottom:calc(100% + 12px);
+    left:0;
+    cursor: default;
+    box-shadow: 3px 0px 40px 5px rgba(0,0,0,.2);
+    padding: 8px;
+    width: max-content;
+    ul{
+        color:#299e6f;
+        font-size: 11px;
+        font-weight: 400;
+        margin: 0;
+        padding-left: 15px;
+    }
+    h6{
+        font-weight: 500;
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+    li{
+        white-space: pre-line;
+    }
+    .unsatistified-error{
+        color:red;
+    }
+}
+input:focus.ng-dirty.ng-invalid+.password-error{
+    display: block;
+}
+
+.arrow-down {
+    position: absolute;
+    bottom: -12px;
+    left:20px;
+    width: 0; 
+    height: 0; 
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;  
+    border-top: 15px solid white;
+}
+

@@ -16,6 +16,7 @@ export class AuthService {
   private token:string|null=sessionStorage.getItem('token')
   private userSub=new BehaviorSubject<User|null>(null)
   user$=this.userSub.asObservable()
+  passwordRegex=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,20}/
   getToken(){
     return this.token
   }
@@ -50,21 +51,22 @@ export class AuthService {
     return await this.signInOrUp(true,username,password)
   }
   async signUp(username:string,password:string){
-    const passwordRegex=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,20}^/
-    if (!(passwordRegex.test(password))||username.length<2||username.length>10)
+    if (!(this.passwordRegex.test(password))||username.length<2||username.length>10)
       return false
     return await this.signInOrUp(false,username,password)
   }
   async signInOrUp(isSignIn:boolean,username:string,password:string){
+    console.log("aluf")
     try{
       const res:any=await firstValueFrom(this.http.post(environment.SERVER_URL+"account"+(isSignIn?"/login":""),{username,password}))
       if (!res)
         return false
       sessionStorage.setItem("token",res.Token)
       this.token=res.Token
-      this.userSub.next(res.User)
+      this.userSub.next({username:res.Username,heroes:res.Heroes})
       return true
     }catch(err){
+      console.log(err)
       return false
     }
   }

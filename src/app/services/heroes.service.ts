@@ -75,9 +75,9 @@ export class HeroesService {
   async tryTrain(hero:Hero){
     const heroRestTimeInMiliseconds = 86400000
     const token=this.authService.getToken()
-    if (!token) return false
-    const user=await firstValueFrom(this.authService.user$)
-    if (user===null) return false
+    if (!token) return {isSucceeded:false}
+    const user=this.authService.getUser()
+    if (user===null) return {isSucceeded:false}
     const train=async ():Promise<boolean>=>{
       try{
         const res=await this.sendHttpRequest(environment.SERVER_URL+"heroes/train/"+hero.id,"patch",{})
@@ -107,12 +107,12 @@ export class HeroesService {
       return false
     }
     if (hero.amountOfTrainingsToday<5) 
-      return await train()
+      return {isSucceeded:await train()}
     
-    const allowedTrainingDate=new Date(hero.lastTrainingDate.getTime()+heroRestTimeInMiliseconds)
-    if (new Date().getTime()-allowedTrainingDate.getTime()<heroRestTimeInMiliseconds) 
-      return allowedTrainingDate 
-    return await train()
+    const allowedNextTrainingDate=new Date(hero.lastTrainingDate.getTime()+heroRestTimeInMiliseconds)
+    if (new Date().getTime()-allowedNextTrainingDate.getTime()<heroRestTimeInMiliseconds) 
+      return {isSucceeded:false,allowedNextTrainingDate} 
+    return {isSucceeded:await train()}
   }
   async sendHttpRequest(url:string,method:"patch"|"post"|"get"|"put"|"delete",body?:object,):Promise<any>{
     const headers=new HttpHeaders({

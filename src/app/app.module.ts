@@ -10,7 +10,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import { DisplayPagesComponent } from './components/display-pages/display-pages.component';
-
+import { HeroComponent } from './components/hero/hero.component';
+import { HeroPageComponent } from './components/pages/hero-page/hero-page.component';
+import { SignInPageComponent } from './components/pages/sign-in-page/sign-in-page.component';
+import { SignUpPageComponent } from './components/pages/sign-up-page/sign-up-page.component';
+import { UserHeroesPageComponent } from './components/pages/user-heroes-page/user-heroes-page.component';
+import { AllHeroesPageComponent } from './components/pages/all-heroes-page/all-heroes-page.component';
+import { LogFormComponent } from './components/log-form/log-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -19,6 +27,13 @@ import { DisplayPagesComponent } from './components/display-pages/display-pages.
     HeroesContainerComponent,
     DialogComponent,
     DisplayPagesComponent,
+    HeroComponent,
+    HeroPageComponent,
+    SignInPageComponent,
+    SignUpPageComponent,
+    UserHeroesPageComponent,
+    AllHeroesPageComponent,
+    LogFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +41,9 @@ import { DisplayPagesComponent } from './components/display-pages/display-pages.
     HttpClientModule,
     BrowserAnimationsModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    ReactiveFormsModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

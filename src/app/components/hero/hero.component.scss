@@ -1,0 +1,88 @@
+:host{
+    border: 5px ridge brown ;
+    transition: transform .7s ease;
+    &:hover{
+        transform: scale(1.1);
+        z-index: 2;
+    }
+    position: relative;
+    display: inline-block;
+    width:175px;
+    height: fit-content;
+    cursor: pointer;
+    @media (min-height:600px ) and (min-width:900px) {
+        width: 250px;
+    }
+    @media (min-height:600px ) and (min-width:1080px) {
+        width:321.27px;      
+    }
+}
+img{
+    width: 100%;
+    height:155px; 
+    cursor: pointer;
+    @media (min-height:600px ) and (min-width:900px) {
+        height:240px;
+    }
+    @media (min-height:600px ) and (min-width:1080px) {
+        height:300px;    
+    }
+}
+.details-container{
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
+.down-part{
+    padding: 10px;
+    background-color: burlywood;
+    margin-top: -4px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    font-size: 12px;
+    width: 100%;
+    height: fit-content;
+    @media (min-height:600px ) and (min-width:900px) {
+        font-size: 16px;
+    }
+    @media (min-height:600px ) and (min-width:1080px) {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+.name{
+    text-align: center;
+    padding: 10px 4px;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: burlywood;
+    cursor: pointer;
+    overflow: hidden;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    @media (min-height:600px ) and (min-width:900px) {
+        font-size: 20px;
+    }
+    @media (min-height:600px ) and (min-width:1080px) {
+        font-size: 20px;
+    }
+}
+button{
+    height: fit-content;
+    cursor: pointer;
+    align-self: center;
+    &:hover:disabled{
+        cursor:not-allowed;
+    }
+}
+.buttons-container{
+    align-self: center;
+    @media (min-height:600px ) and (min-width:1080px) {
+        display: grid;
+        gap:5px;
+    }
+}

@@ -1,0 +1,15 @@
+<app-header/>
+<div class="hero-and-description-container">
+    <div class="hero-container">
+        <app-hero [hero]="hero" [isUserPage]="hero.owner?.username===user?.username"/>
+    </div>
+    <div class="description-container">
+        <h4>
+            Description:
+        </h4>
+        <div>
+            {{hero.description}}
+        </div>
+    </div>
+</div>
+
