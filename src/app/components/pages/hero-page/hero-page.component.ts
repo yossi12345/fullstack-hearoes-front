@@ -24,9 +24,17 @@ export class HeroPageComponent implements OnInit,OnDestroy{
     private heroService:HeroesService
   ){}
   ngOnInit(): void {
-    this.subscriber=this.route.data.subscribe((data:any)=>{
-      console.log("user resolver data:",data[0])
-      if (!data[0]){
+    this.subscriber=this.route.data.subscribe({
+      next:(data:any)=>{
+        console.log("user resolver data:",data[0])
+        if (!data[0]){
+          this.router.navigate(['heroes/1'])
+          this.dialogService.openDialog("this hero do not exist")
+
+        }
+      },
+      error:()=>{
+        console.log("ERR2")
         this.router.navigate(['heroes/1'])
         this.dialogService.openDialog("this hero do not exist")
       }

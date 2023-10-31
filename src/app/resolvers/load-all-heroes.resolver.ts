@@ -12,10 +12,9 @@ export const loadAllHeroesResolver: ResolveFn<{heroes:Hero[],amount:number,page:
   }
   const heroesService=inject(HeroesService) 
   return heroesService.updateAllHeroesState(page)
- // return heroesService.allHeroes$
   .pipe(map((data)=>{
     console.log("**1",data)
-    if (!data||data.heroes.length===0){
+    if ((!data||data.heroes.length===0)&&page!==1){
       console.log("**",data)
       router.navigate(['/heroes/1'])
       return null

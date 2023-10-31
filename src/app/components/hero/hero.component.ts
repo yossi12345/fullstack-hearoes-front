@@ -20,7 +20,8 @@ export class HeroComponent {
     this.heroesService.changeUserHeroes("unown",this.hero)
   }
   train(){
-    this.heroesService.tryTrain(this.hero).then(({isSucceeded,allowedNextTrainingDate})=>{
+    this.heroesService.tryTrain(this.hero).subscribe(({isSucceeded,allowedNextTrainingDate})=>{
+      console.log("hero",isSucceeded,allowedNextTrainingDate)
       if (!isSucceeded&&allowedNextTrainingDate){
         console.log(allowedNextTrainingDate)
         this.dialogService.openDialog([

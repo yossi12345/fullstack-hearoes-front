@@ -1,11 +1,19 @@
 import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
 import { HeroesService } from '../services/heroes.service';
-import { Hero } from '../models/hero';
-import { from } from 'rxjs';
+import { catchError, of } from 'rxjs';
+import { DialogService } from '../services/dialog.service';
 export const loadSpecificHeroResolver: ResolveFn<boolean> = (route, state) => {
   const heroesService=inject(HeroesService)
+  const router=inject(Router)
+  const dialogService=inject(DialogService)
   const heroId=route.params['id']
-  return heroesService.updateHeroForHeroPageById(heroId)
+  console.log("R")
+  return heroesService.updateHeroForHeroPageById(heroId).
+    pipe(catchError(()=>{
+      router.navigate(['heroes/1'])
+      dialogService.openDialog("this hero do not exist")
+      return of(false)
+    }))
   
 };

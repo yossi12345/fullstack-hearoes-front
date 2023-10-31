@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject, firstValueFrom, tap } from 'rxjs';
+import { BehaviorSubject, Subject, firstValueFrom, map, of, tap } from 'rxjs';
 import { User } from '../models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -46,33 +46,29 @@ export class AuthService {
       },
     })
   }
-  async signIn(username:string,password:string){
-    return await this.signInOrUp(true,username,password)
+  signIn(username:string,password:string){
+    return this.signInOrUp(true,username,password)
   }
-  async signUp(username:string,password:string){
+  signUp(username:string,password:string){
     if (!this.passwordRegex.test(password)||!this.usernameRegex.test(username))
-      return false
-    return await this.signInOrUp(false,username,password)
+      return of(false)
+    return this.signInOrUp(false,username,password)
   }
-  async signInOrUp(isSignIn:boolean,username:string,password:string){
+  signInOrUp(isSignIn:boolean,username:string,password:string){
     console.log("aluf")
-    try{
-      const res:any=await firstValueFrom(this.http.post(environment.SERVER_URL+"account"+(isSignIn?"/login":""),{username,password}))
-      if (!res)
-        return false
+    
+    return this.http.post(environment.SERVER_URL+"account"+(isSignIn?"/login":""),{username,password}).pipe(tap((res:any)=>{
+      if (!res){
+        console.log(res) 
+        return 
+      }
       sessionStorage.setItem("token",res.token)
       console.log("res",res)
       this.token=res.token
       this.userSub.next({username:res.username,heroes:res.heroes})
       this.router.navigate(["heroes/1"],{replaceUrl:true})
-      return true
-    }catch(err){
-      console.log(err)
-      return false
-    }
-    // return this.http.post(environment.SERVER_URL+"account"+(isSignIn?"/login":""),{username,password}).pipe(tap((res)=>{
-    
-    // }))
+
+    })).pipe(map((res)=>res?true:false))
   }
   signOut(){
     sessionStorage.removeItem('token')

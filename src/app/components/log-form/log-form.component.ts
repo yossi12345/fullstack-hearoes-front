@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -69,24 +70,32 @@ export class LogFormComponent implements OnInit{
     const password=this.getControl('password').value
     const username=this.getControl('username').value
     if (this.isSignIn){
-      this.authService.signIn(username,password).then((isLogSuccessfully)=>{
-        if (!isLogSuccessfully){
-          this.upperError=""
-          setTimeout(()=>{
-            this.upperError='the username or password is wrong'
-          },300)
+      this.authService.signIn(username,password).pipe(first()).subscribe({
+        next:(isLogSuccessfully)=>{
+          if (!isLogSuccessfully)
+            this.updateUpperError('the username or password is wrong')
+        },
+        error:()=>{
+          this.updateUpperError('the username or password is wrong')
         }
       })
     }
     else if (password===this.getControl('repeatedPassword').value){
-      this.authService.signUp(username,password).then((isLogSuccessfully)=>{
-        if (!isLogSuccessfully){
-          this.upperError=""
-          setTimeout(()=>{
-            this.upperError='this username already exists'
-          },300)
+      this.authService.signUp(username,password).pipe(first()).subscribe({
+        next:(isLogSuccessfully)=>{
+          if (!isLogSuccessfully)
+            this.updateUpperError("this username already exist")
+        },
+        error:()=>{
+          this.updateUpperError("this username already exist")
         }
       })
     } 
+  }
+  updateUpperError(message:string){
+    this.upperError=""
+    setTimeout(()=>{
+      this.upperError=message
+    },300)
   }
 }

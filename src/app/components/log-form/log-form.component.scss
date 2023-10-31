@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: calc(100vh - 60px);
 }
 form{
     border: 2px solid gray;
@@ -12,6 +12,9 @@ form{
     flex-direction: column;
     gap:20px;
     align-items: center;
+}
+input{
+    width:270px;
 }
 h1{
     text-align: center;
