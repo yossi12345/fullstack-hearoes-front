@@ -15,11 +15,12 @@ export class AllHeroesPageComponent {
   page!:number
   subscriber!:Subscription
   ngOnInit():void{
-   this.subscriber=this.route.data.subscribe(([data]:any)=>{
+    console.log("(((")
+   this.subscriber=this.route.data.subscribe((data:any)=>{
       console.log("resolver data:",data)
-      this.heroes=data.heroes
-      this.amountOfHeroes=data.amount
-      this.page=data.page
+      this.heroes=data[0].heroes
+      this.amountOfHeroes=data[0].amountOfHeroes
+      this.page=data[0].page
     })
   }
   ngOnDestroy(): void {

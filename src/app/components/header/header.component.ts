@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit{
   constructor(private authService:AuthService){}
   ngOnInit(): void {
     this.subscriber=this.authService.user$.subscribe((user)=>{
-      this.user=user
+      this.user=user==="pending"?null:user
     })
   }
   ngOnDestroy(): void {

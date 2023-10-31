@@ -23,7 +23,12 @@ export class LogFormComponent implements OnInit{
   constructor(private fb:FormBuilder,private authService:AuthService){}
   ngOnInit(): void {
     this.logForm=this.fb.group({
-      username:['',[Validators.required, Validators.minLength(2),Validators.maxLength(10)]],
+      username:['',[
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(10),
+        Validators.pattern(this.authService.usernameRegex)
+      ]],
       password:['',[
         Validators.required,
         Validators.pattern(this.authService.passwordRegex)
@@ -43,6 +48,8 @@ export class LogFormComponent implements OnInit{
       return ""
     if (!isPassword&&(control.getError('minlength')||control.getError('maxlength')))
       return "username must be 2-10 characters"
+    if (!isPassword&&control.hasError("pattern"))
+      return "username can only contain english letters and numbers"
     return ""
   }
   handleSubmit(){

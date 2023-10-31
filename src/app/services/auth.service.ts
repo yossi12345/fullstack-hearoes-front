@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Subject, firstValueFrom, tap } from 'rxjs';
 import { User } from '../models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -14,25 +14,24 @@ export class AuthService {
     this.getUserFirstTime()
   }
   private token:string|null=sessionStorage.getItem('token')
-  private userSub=new BehaviorSubject<User|null>(null)
+  private userSub=new BehaviorSubject<User|null|"pending">(this.token?"pending":null)
   user$=this.userSub.asObservable()
   passwordRegex=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,20}/
+  usernameRegex=/^[a-zA-Z0-9]{2,10}$/
   getToken(){
     return this.token
   }
   getUser(){
     return this.userSub.value
   }
-  updateUserHeroes(newUserHeroes:Hero[]){
-    
+  updateUserHeroes(newUserHeroes:Hero[]){ 
     const user=this.userSub.value
-    if (user===null)return 
+    if (user===null||user==="pending")return 
     user.heroes=newUserHeroes
     this.userSub.next({...user})
   }
   getUserFirstTime (){
     if (!this.token) return 
-
     this.http.get(environment.SERVER_URL+"account",{
       headers:new HttpHeaders().set('Authorization', 'Bearer '+this.token)
     }).
@@ -42,8 +41,8 @@ export class AuthService {
         this.token=null
         this.userSub.next(null)
       },
-      next:(res)=>{
-         this.userSub.next((res as User))
+      next:(res:any)=>{
+         this.userSub.next({username:res.username,heroes:res.heroes})
       },
     })
   }
@@ -51,7 +50,7 @@ export class AuthService {
     return await this.signInOrUp(true,username,password)
   }
   async signUp(username:string,password:string){
-    if (!(this.passwordRegex.test(password))||username.length<2||username.length>10)
+    if (!this.passwordRegex.test(password)||!this.usernameRegex.test(username))
       return false
     return await this.signInOrUp(false,username,password)
   }
@@ -61,14 +60,19 @@ export class AuthService {
       const res:any=await firstValueFrom(this.http.post(environment.SERVER_URL+"account"+(isSignIn?"/login":""),{username,password}))
       if (!res)
         return false
-      sessionStorage.setItem("token",res.Token)
-      this.token=res.Token
-      this.userSub.next({username:res.Username,heroes:res.Heroes})
+      sessionStorage.setItem("token",res.token)
+      console.log("res",res)
+      this.token=res.token
+      this.userSub.next({username:res.username,heroes:res.heroes})
+      this.router.navigate(["heroes/1"],{replaceUrl:true})
       return true
     }catch(err){
       console.log(err)
       return false
     }
+    // return this.http.post(environment.SERVER_URL+"account"+(isSignIn?"/login":""),{username,password}).pipe(tap((res)=>{
+    
+    // }))
   }
   signOut(){
     sessionStorage.removeItem('token')

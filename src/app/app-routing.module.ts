@@ -13,7 +13,7 @@ import { loadSpecificHeroResolver } from './resolvers/load-specific-hero.resolve
 
 const routes: Routes = [
   {path:'',redirectTo:'sign-in',pathMatch:'full'},
-  {path:'hero/:name',component:HeroPageComponent,canActivate:[isLoggedGuard],resolve:[loadSpecificHeroResolver]},
+  {path:'hero/:id',component:HeroPageComponent,canActivate:[isLoggedGuard],resolve:[loadSpecificHeroResolver]},
   {path:'sign-up',component:SignUpPageComponent,canActivate:[isUnloggedGuard]},
   {path:'sign-in',component:SignInPageComponent,canActivate:[isUnloggedGuard]},
   {path:'heroes/:page',component:AllHeroesPageComponent,canActivate:[isLoggedGuard],resolve:[loadAllHeroesResolver]},

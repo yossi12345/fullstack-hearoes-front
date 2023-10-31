@@ -1,6 +1,6 @@
 <form [formGroup]="logForm" (ngSubmit)="handleSubmit()">
     <h1>{{isSignIn?'sign in':'sign up'}}</h1>
-    <h5>{{upperError}}</h5>
+    <h5 class="center">{{upperError}}</h5>
     <div>
         <label>username:</label>
         <div class="input-container">
@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-    <button class="center">Submit</button>
-    <a class="center" *ngIf="isSignIn" routerLink="/sign-up">to sign up</a>
-    <a class="center" *ngIf="!isSignIn" routerLink="/sign-in">to sign in</a>
+    <button>Submit</button>
+    <a *ngIf="isSignIn" routerLink="/sign-up">to sign up</a>
+    <a *ngIf="!isSignIn" routerLink="/sign-in">to sign in</a>
 </form>

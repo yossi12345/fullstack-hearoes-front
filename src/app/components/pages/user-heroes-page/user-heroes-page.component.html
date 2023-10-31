@@ -1,1 +1,6 @@
-<p>user-heroes-page works!</p>
+<app-header [isAllHeroesPage]="false" [isUserHeroesPage]="true"/>
+<app-heroes-container [heroes]="heroesInPage" [isUserPage]="true" *ngIf="heroesInPage.length>0"/>
+<div *ngIf="allUserHeroes.length===0" class="no-heroes">
+    you don't have any heroes 
+</div>
+<app-display-pages [currentPage]="page" [amountOfHeroes]="allUserHeroes.length" [isUserPage]="true"/>

@@ -30,7 +30,7 @@ export class UserHeroesPageComponent implements OnInit,OnDestroy{
         this.router.navigate(['/user-heroes/1'],{replaceUrl:true})
     })
     this.subscriber.add(this.authService.user$.subscribe((user)=>{
-      if (!user) return 
+      if (!user||user==="pending") return 
       this.allUserHeroes=user.heroes?user.heroes:[]
       this.updateHeroesInPage()
       if (this.page>1&&this.heroesInPage.length===0)

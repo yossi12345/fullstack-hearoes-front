@@ -6,7 +6,7 @@ export interface Hero {
     amountOfTrainingsToday:number
     level:number
     name: string
-    lastTrainingDate:Date
+    lastTrainingDate:string
     owner:User|null
     description:string
 }

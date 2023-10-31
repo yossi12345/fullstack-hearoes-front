@@ -5,6 +5,7 @@ import { Hero } from 'src/app/models/hero';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { HeroesService } from 'src/app/services/heroes.service';
 
 @Component({
   selector: 'app-hero-page',
@@ -12,14 +13,15 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./hero-page.component.scss']
 })
 export class HeroPageComponent implements OnInit,OnDestroy{
-  hero!:Hero
+  hero!:Hero|null
   subscriber!:Subscription
   user!:User|null
   constructor(
     private route:ActivatedRoute,
     private router:Router,
     private dialogService:DialogService,
-    private authService:AuthService
+    private authService:AuthService,
+    private heroService:HeroesService
   ){}
   ngOnInit(): void {
     this.subscriber=this.route.data.subscribe((data:any)=>{
@@ -28,12 +30,13 @@ export class HeroPageComponent implements OnInit,OnDestroy{
         this.router.navigate(['heroes/1'])
         this.dialogService.openDialog("this hero do not exist")
       }
-      else
-        this.hero=data[0]
-
     })
     this.subscriber.add(this.authService.user$.subscribe((user)=>{
-      this.user=user
+      console.log("user",user)
+        this.user=user==="pending"?null:user
+    }))
+    this.subscriber.add(this.heroService.heroforHeroPage$.subscribe(hero=>{
+      this.hero=hero==="pending"?null:hero
     }))
   }
   ngOnDestroy(): void {

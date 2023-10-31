@@ -12,7 +12,7 @@ export const loadUserHeroesResolver: ResolveFn<{heroes:Hero[],page:number}|null>
       return of(null)
     }
     const authService=inject(AuthService)
-    return authService.user$.pipe(map((user:User|null)=>
-      user?.heroes?{heroes:user.heroes,page}:null
+    return authService.user$.pipe(map((user:User|null|"pending")=>
+      (user!=="pending"&&user?.heroes)?{heroes:user.heroes,page}:null
     ))
 };
